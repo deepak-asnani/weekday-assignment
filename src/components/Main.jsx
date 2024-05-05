@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 
 const Main = () => {
   return (
-    <Box>
+    <Box p={3}>
       <JobList />
     </Box>
   );
