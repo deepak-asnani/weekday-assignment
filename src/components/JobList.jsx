@@ -1,26 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useGetJobsQuery } from "../services/api";
 import JobCard from "./JobCard";
 import { Grid, Modal, Box, Typography } from "@mui/material";
+import { FETCH_JOBS_BODY } from "../constants";
 
 const JobList = () => {
-  const { data, isLoading, error } = useGetJobsQuery();
+  const [jobQueryOffset, setJobsQueryOffset] = useState(
+    FETCH_JOBS_BODY.DEFAULT_OFFSET
+  );
+  const { data, isLoading, error } = useGetJobsQuery({
+    limit: FETCH_JOBS_BODY.DEFAULT_LIMIT,
+    offset: jobQueryOffset,
+  });
+
   const jobDetailsList = data?.jdList || null;
 
   const [isJobDescriptionModalOpen, setIsJoDescriptionModalOpen] =
     useState(false);
   const [modalContent, setModalContent] = useState("");
 
+  const listRef = useRef();
+
   const handleJobDescriptionModal = (jobDescription) => {
     setIsJoDescriptionModalOpen(true);
     setModalContent(jobDescription);
   };
 
+  const handleScroll = () => {
+    const {
+      current: { scrollTop, scrollHeight, clientHeight },
+    } = listRef;
+    if (scrollTop + clientHeight >= scrollHeight - 1000) {
+      setJobsQueryOffset(jobDetailsList.length + 1);
+    }
+  };
+
   if (isLoading) return <>Loading...</>;
+
   if (error) return <>{error.error}</>;
 
   return (
-    <Box>
+    <Box
+      onScroll={handleScroll}
+      sx={{ overflowY: "scroll", height: "100vh", p: 1 }}
+      ref={listRef}
+    >
       <Grid container spacing={4}>
         {jobDetailsList.map((job) => {
           return (
@@ -35,6 +59,7 @@ const JobList = () => {
               salaryCurrencyCode={job.salaryCurrencyCode}
               jobDetailsFromCompany={job.jobDetailsFromCompany}
               minExp={job.minExp}
+              maxExp={job.maxExp}
               jdLink={job.jdLink}
               handleShowJobDescription={handleJobDescriptionModal}
             />
