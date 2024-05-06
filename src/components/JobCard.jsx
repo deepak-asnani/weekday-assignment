@@ -24,11 +24,23 @@ const JobCard = ({
   salaryCurrencyCode,
   jobDetailsFromCompany,
   minExp,
+  maxExp,
   handleShowJobDescription,
 }) => {
   const CurrencyIconComponent = CURRENCY_ICONS[salaryCurrencyCode];
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      sx={{
+        transition: "transform 0.3s ease-in-out",
+        "&:hover": {
+          transform: "scale(1.02)",
+        },
+      }}
+    >
       <Card p={2} sx={{ borderRadius: 4 }}>
         <CardContent>
           <Stack direction="row" flexWrap="wrap">
@@ -95,12 +107,34 @@ const JobCard = ({
             >
               About us
             </Typography>
-            <Typography variant="body1" gutterBottom>
-              {`${jobDetailsFromCompany.substring(0, 250)}`}
-            </Typography>
+
             <Box
               onClick={() => handleShowJobDescription(jobDetailsFromCompany)}
-              sx={{ cursor: "pointer", position: "relative" }}
+              sx={{
+                cursor: "pointer",
+                position: "relative",
+                overflow: "hidden",
+                maxHeight: "7em",
+              }}
+            >
+              <Typography variant="body1">
+                {`${jobDetailsFromCompany.substring(0, 260)}`}
+              </Typography>
+              <Typography
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                  width: "100%",
+                  background:
+                    "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1))",
+                }}
+              >
+                &nbsp;
+              </Typography>
+            </Box>
+            <Box
+              onClick={() => handleShowJobDescription(jobDetailsFromCompany)}
             >
               <Typography
                 color="primary"
@@ -110,7 +144,6 @@ const JobCard = ({
                   position: "relative",
                   textAlign: "center",
                   backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  padding: "8px",
                   borderRadius: "4px",
                 }}
               >
@@ -126,7 +159,9 @@ const JobCard = ({
             >
               Minimum Experience
             </Typography>
-            <Typography>{`${minExp || 0} Years`}</Typography>
+            <Typography>
+              {minExp || 0} {maxExp && `- ${maxExp}`} Years
+            </Typography>
           </Box>
         </CardContent>
         <CardActions sx={{ textAlign: "center" }}>
@@ -140,11 +175,16 @@ const JobCard = ({
               py: "0.8rem",
               fontSize: "1rem",
               my: "1rem",
+              ":hover": {
+                bgcolor: "rgb(85, 239, 196)", // theme.palette.primary.main
+              },
             }}
+            disableElevation
+            disableRipple
             onClick={() =>
               window.open(jdLink, "_blank", "noopener, noreferrer")
             }
-            startIcon={<BoltRoundedIcon backgroundColor="yellow" />}
+            startIcon={<BoltRoundedIcon />}
           >
             Easy Apply
           </Button>
