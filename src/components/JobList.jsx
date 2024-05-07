@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useGetJobsQuery } from "../services/api";
 import JobCard from "./JobCard";
 import { Grid, Modal, Box, Typography } from "@mui/material";
 import { FETCH_JOBS_BODY } from "../constants";
+import { useFilterContext } from "../store/filterContext";
 
 const JobList = () => {
   const [jobQueryOffset, setJobsQueryOffset] = useState(
@@ -13,7 +14,48 @@ const JobList = () => {
     offset: jobQueryOffset,
   });
 
+  const { filters } = useFilterContext();
+
   const jobDetailsList = data?.jdList || null;
+
+  const [filteredJobList, setFilteredJobList] = useState(null);
+
+  useEffect(() => {
+    setFilteredJobList(() => {
+      const filtered = jobDetailsList?.filter((job) => {
+        const isExperienceMatch =
+          !filters.experience ||
+          (filters.experience >= job.minExp &&
+            filters.experience <= job.maxExp);
+
+        const isMinimumBasePayMatch =
+          !filters.minimumBasePay || filters.minimumBasePay <= job.minJdSalary;
+
+        const isModeMatch =
+          !filters.mode ||
+          filters.mode.toLowerCase() === job.location ||
+          filters.mode === "In-Office" ||
+          filters.mode === "Hybrid";
+
+        const isCompanyNameMatch =
+          !filters.companyName || filters.companyName === job.companyName;
+
+        return (
+          isExperienceMatch &&
+          isMinimumBasePayMatch &&
+          isModeMatch &&
+          isCompanyNameMatch
+        );
+      });
+
+      return filtered?.length ? filtered : null;
+    });
+  }, [filters, jobDetailsList]);
+
+
+  useEffect(() => {}, [filters.mode]);
+
+  useEffect(() => {}, [filters.experience]);
 
   const [isJobDescriptionModalOpen, setIsJoDescriptionModalOpen] =
     useState(false);
@@ -34,10 +76,13 @@ const JobList = () => {
       setJobsQueryOffset(jobDetailsList.length + 1);
     }
   };
+  const renderJobList = filteredJobList ?? jobDetailsList;
 
   if (isLoading) return <>Loading...</>;
 
   if (error) return <>{error.error}</>;
+
+  if (!renderJobList?.length) return <>No Job Matches with the preference</>;
 
   return (
     <Box
@@ -46,7 +91,7 @@ const JobList = () => {
       ref={listRef}
     >
       <Grid container spacing={4}>
-        {jobDetailsList.map((job) => {
+        {renderJobList?.map((job) => {
           return (
             <JobCard
               key={job.jdUid}
