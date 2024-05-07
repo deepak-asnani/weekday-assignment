@@ -14,11 +14,11 @@ export const FETCH_JOBS_BODY = {
 };
 
 export const FILTER_TYPES = {
-  ROLES: {key: 'roles', name: 'Roles'},
-  EXPERIENCE: {key: 'experience', name: 'Experience'},
-  MODE: {key: 'mode', name: 'Mode'},
-  MINIMUM_BASE_PAY: {key: 'minimumBasePay', name: 'Minimum Base Pay'},
-  COMPANY_NAME: {key: 'companyName', name: "Company Name"}
+  ROLES: { key: "roles", name: "Roles" },
+  EXPERIENCE: { key: "experience", name: "Experience" },
+  MODE: { key: "mode", name: "Mode" },
+  MINIMUM_BASE_PAY: { key: "minimumBasePay", name: "Minimum Base Pay" },
+  COMPANY_NAME: { key: "companyName", name: "Company Name" },
 };
 
 export const JOB_ROLES = {
@@ -48,12 +48,21 @@ export const MIN_BASE_PAYS = Array.from(
   (_, index) => 10 + index * 20
 );
 
+// export const DEFAULT_FILTERS_VALUES = {
+//   roles: [JOB_ROLES.Engineering[0]],
+//   experience: EXPERIENCE_VALUES[2],
+//   mode: JOB_MODES[2],
+//   minimumBasePay: MIN_BASE_PAYS[0],
+//   companyName: "",
+// };
+
 export const DEFAULT_FILTERS_VALUES = {
-  experience: EXPERIENCE_VALUES[2],
-  mode: JOB_MODES[2],
-  minimumBasePay: MIN_BASE_PAYS[0],
-  companyName: ''
-};
+    roles: [],
+    experience: '',
+    mode: '',
+    minimumBasePay: '',
+    companyName: "",
+  };
 
 const ALL_CONSTANTS = {
   BASE_URL,

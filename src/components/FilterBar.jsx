@@ -5,9 +5,11 @@ import {
   EXPERIENCE_VALUES,
   FILTER_TYPES,
   JOB_MODES,
+  JOB_ROLES,
   MIN_BASE_PAYS,
 } from "../constants";
 import { useFilterContext } from "../store/filterContext";
+import RolesFilter from "./RolesFilter";
 
 const FilterBar = () => {
   const { filters, setFilters } = useFilterContext();
@@ -50,7 +52,12 @@ const FilterBar = () => {
       flexWrap="wrap"
       useFlexGap
     >
-      {/* <RolesFilter /> */}
+      {/* <RolesFilter
+        options={JOB_ROLES}
+        filterType={FILTER_TYPES.ROLES}
+        handleFilter={handleFilter}
+        filterValue={filters?.[FILTER_TYPES.ROLES.key]}
+      /> */}
       <FilterInput
         options={EXPERIENCE_VALUES}
         filterType={FILTER_TYPES.EXPERIENCE}

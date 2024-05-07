@@ -10,25 +10,11 @@ import {
 } from "@mui/material";
 import { JOB_ROLES } from "../constants";
 
-const RolesFilter = () => {
-  const [selectedRoles, setSelectedRoles] = useState([]);
-  console.log("selected roles:- ", selectedRoles);
-  const handleSelectRoles = (event) => {
-    console.log("event:- ", event);
-    const role = event.target.value[0];
-    console.log("role:- ", role);
-    // if (selectedRoles.includes(role)) {
-    //   console.log("role:- ", role);
-    //   setSelectedRoles(
-    //     (prevSelectedRoles) => !prevSelectedRoles.includes(role)
-    //   );
-    // } else {
-    //   setSelectedRoles((prevSelectedRoles) => [...prevSelectedRoles, role]);
-    // }
-  };
+const RolesFilter = ({options, handleFilter, filterType, filterValue }) => {
+    console.log("filter value in roles:- ", filterValue)
   return (
     <>
-      <InputLabel htmlFor="grouped-native-select">Roles</InputLabel>
+      {/* <InputLabel htmlFor="grouped-native-select">Roles</InputLabel>
       <Select
         sx={{ width: "100%" }}
         id="grouped-native-select"
@@ -46,7 +32,29 @@ const RolesFilter = () => {
             ))}
           </optgroup>
         ))}
-      </Select>
+      </Select> */}
+
+      <TextField
+        label={filterType.name}
+        select
+        SelectProps={{ multiple: true }}
+        value={filterValue}
+        sx={{ width: "25%" }}
+        onChange={(e) => {handleFilter(e, filterType.key)}}
+      >
+        {Object.entries(options).map(([category, roles]) => (
+          <li key={category}>
+            <ul>
+              <ListSubheader>{category}</ListSubheader>
+              {roles.map((role) => (
+                <MenuItem key={role} value={role}>
+                  {role}
+                </MenuItem>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </TextField>
     </>
   );
 };

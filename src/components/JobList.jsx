@@ -22,27 +22,40 @@ const JobList = () => {
 
   useEffect(() => {
     setFilteredJobList(() => {
-      const filtered = jobDetailsList?.filter(
-        (job) =>
-          filters.experience >= job.minExp &&
-          filters.experience <= job.maxExp &&
-          filters.minimumBasePay <= job.minJdSalary &&
-          (filters.mode.toLowerCase() === job.location ||
-            filters.mode === "In-Office" ||
-            filters.mode === "Hybrid") &&
-          (!filters.companyName || filters.companyName === job.companyName)
-      );
-      return filtered;
+      const filtered = jobDetailsList?.filter((job) => {
+        const isExperienceMatch =
+          !filters.experience ||
+          (filters.experience >= job.minExp &&
+            filters.experience <= job.maxExp);
+
+        const isMinimumBasePayMatch =
+          !filters.minimumBasePay || filters.minimumBasePay <= job.minJdSalary;
+
+        const isModeMatch =
+          !filters.mode ||
+          filters.mode.toLowerCase() === job.location ||
+          filters.mode === "In-Office" ||
+          filters.mode === "Hybrid";
+
+        const isCompanyNameMatch =
+          !filters.companyName || filters.companyName === job.companyName;
+
+        return (
+          isExperienceMatch &&
+          isMinimumBasePayMatch &&
+          isModeMatch &&
+          isCompanyNameMatch
+        );
+      });
+
+      return filtered?.length ? filtered : null;
     });
   }, [filters, jobDetailsList]);
 
-  console.log("filtered job list:- ", filteredJobList);
 
   useEffect(() => {}, [filters.mode]);
 
   useEffect(() => {}, [filters.experience]);
-
-  console.log("job details list: ", jobDetailsList);
 
   const [isJobDescriptionModalOpen, setIsJoDescriptionModalOpen] =
     useState(false);
