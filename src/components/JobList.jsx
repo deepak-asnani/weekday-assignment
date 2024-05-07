@@ -52,11 +52,6 @@ const JobList = () => {
     });
   }, [filters, jobDetailsList]);
 
-
-  useEffect(() => {}, [filters.mode]);
-
-  useEffect(() => {}, [filters.experience]);
-
   const [isJobDescriptionModalOpen, setIsJoDescriptionModalOpen] =
     useState(false);
   const [modalContent, setModalContent] = useState("");
@@ -121,7 +116,12 @@ const JobList = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 600,
+            width: {
+              xs: '90%',
+              sm: '60%', 
+              md: '50%', 
+            },
+            overflow: 'scroll',
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
