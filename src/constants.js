@@ -18,6 +18,7 @@ export const FILTER_TYPES = {
   EXPERIENCE: {key: 'experience', name: 'Experience'},
   MODE: {key: 'mode', name: 'Mode'},
   MINIMUM_BASE_PAY: {key: 'minimumBasePay', name: 'Minimum Base Pay'},
+  COMPANY_NAME: {key: 'companyName', name: "Company Name"}
 };
 
 export const JOB_ROLES = {
@@ -51,6 +52,7 @@ export const DEFAULT_FILTERS_VALUES = {
   experience: EXPERIENCE_VALUES[2],
   mode: JOB_MODES[2],
   minimumBasePay: MIN_BASE_PAYS[0],
+  companyName: ''
 };
 
 const ALL_CONSTANTS = {

@@ -29,7 +29,8 @@ const JobList = () => {
           filters.minimumBasePay <= job.minJdSalary &&
           (filters.mode.toLowerCase() === job.location ||
             filters.mode === "In-Office" ||
-            filters.mode === "Hybrid")
+            filters.mode === "Hybrid") &&
+          (!filters.companyName || filters.companyName === job.companyName)
       );
       return filtered;
     });
@@ -68,7 +69,7 @@ const JobList = () => {
 
   if (error) return <>{error.error}</>;
 
-  if(!renderJobList?.length) return <>No Job Matches with the preference</>
+  if (!renderJobList?.length) return <>No Job Matches with the preference</>;
 
   return (
     <Box

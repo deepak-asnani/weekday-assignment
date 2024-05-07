@@ -11,7 +11,7 @@ const FilterInput = ({ options, handleFilter, filterType, filterValue }) => {
       onChange={(e) => {
         handleFilter(e, filterType.key );
       }}
-      sx={{ width: "25%" }}
+      sx={{ minWidth: '200px', width: '24%' }}
     >
       {options.map((name) => (
         <MenuItem key={name} value={name}>

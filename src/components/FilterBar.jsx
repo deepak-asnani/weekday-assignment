@@ -1,5 +1,5 @@
-import React from "react";
-import { Stack } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Stack, TextField } from "@mui/material";
 import FilterInput from "./FilterInput";
 import {
   EXPERIENCE_VALUES,
@@ -11,9 +11,11 @@ import { useFilterContext } from "../store/filterContext";
 
 const FilterBar = () => {
   const { filters, setFilters } = useFilterContext();
+  const [searchValue, setSearchValue] = useState("");
 
   const handleFilter = (event, filterType) => {
-    const selectedValue = event.target.value;
+    const selectedValue =
+      filterType === FILTER_TYPES.COMPANY_NAME.key ? event : event.target.value;
 
     setFilters((prevSelectedFilters) => {
       console.log("prev selected filters:- ", prevSelectedFilters);
@@ -29,8 +31,25 @@ const FilterBar = () => {
     });
   };
 
+  useEffect(() => {
+    let timer;
+    timer = setTimeout(() => {
+      handleFilter(searchValue, FILTER_TYPES.COMPANY_NAME.key);
+    }, 400);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchValue]);
+
   return (
-    <Stack direction="row" spacing={4} sx={{ marginBottom: "1em" }}>
+    <Stack
+      direction="row"
+      spacing={4}
+      sx={{ marginBottom: "1em", p: "0.5em" }}
+      flexWrap="wrap"
+      useFlexGap
+    >
       {/* <RolesFilter /> */}
       <FilterInput
         options={EXPERIENCE_VALUES}
@@ -49,6 +68,11 @@ const FilterBar = () => {
         filterType={FILTER_TYPES.MINIMUM_BASE_PAY}
         handleFilter={handleFilter}
         filterValue={filters?.[FILTER_TYPES.MINIMUM_BASE_PAY.key]}
+      />
+      <TextField
+        label={FILTER_TYPES.COMPANY_NAME.name}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
       />
     </Stack>
   );
