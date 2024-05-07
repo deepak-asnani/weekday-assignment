@@ -35,6 +35,6 @@ Weekday Job Portal is a web application developed as an assignment given by Week
 - Consider using Redux instead of Context API for state management. Tried implementing Redux but faced errors.
 
 ## Live Demo
-[Live Demo](https://weekday-assignment-omega.vercel.app/) - See the application in action without installation.
+[Live Demo](https://weekday-assignment-omega.vercel.app/){:target="_blank"} - See the application in action without installation.
 
 Feel free to provide any feedback or suggestions!
