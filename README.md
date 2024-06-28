@@ -16,7 +16,7 @@
 
 
 ## Description
-Weekday Job Portal is a web application developed as an assignment given by Weekday as a part of their hiring process. The portal allows users to browse job opportunities. Users can filter jobs based on experience, minimum base pay, and work mode (office, hybrid, remote). Additionally, users can search for jobs by company names.
+Weekday Job Portal is a cloned web application. The portal allows users to browse job opportunities. Users can filter jobs based on experience, minimum base pay, and work mode (office, hybrid, remote). Additionally, users can search for jobs by company names.
 
 ## Stack Used
 - **React**: Utilized for component-based architecture and efficient performance due to virtual DOM.
